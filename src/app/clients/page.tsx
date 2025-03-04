@@ -11,6 +11,12 @@ import {
 	HStack,
 	IconButton,
 	VStack,
+	SelectRoot,
+	SelectTrigger,
+	SelectValueText,
+	SelectContent,
+	createListCollection,
+	SelectItem,
 } from '@chakra-ui/react';
 import { LuFilter, LuSearch, LuChevronDown } from 'react-icons/lu';
 import {
@@ -26,8 +32,9 @@ import {
 	MenuTrigger,
 } from '@/components/ui/menu';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { VscSettings } from "react-icons/vsc";
+import { VscSettings } from 'react-icons/vsc';
 import { useState, ChangeEvent } from 'react';
+import { statusAnatomy } from '@chakra-ui/react/anatomy';
 
 interface Client {
 	id: number;
@@ -59,7 +66,7 @@ const clients: Client[] = [
 			type: 'interview',
 		},
 		lastPosition: 'UI/UX Designer',
-		status: 'Pending',
+		status: 'Inactive',
 	},
 	{
 		id: 3,
@@ -93,22 +100,43 @@ const clients: Client[] = [
 	},
 ];
 
+const status = ['All', 'Active', 'Inactive'];
+const professions = ['All', 'Developer', 'Designer', 'Manager', 'Director'];
+const clientTypes = ['All', 'Client', 'Attendee', 'Interview'];
+
 export default function ClientsPage() {
 	const [selectedClients, setSelectedClients] = useState<number[]>([]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [showFilters, setShowFilters] = useState(false);
-	const [activeFilter, setActiveFilter] = useState<string>('all');
-	const [professionFilter, setProfessionFilter] = useState<string>('all');
-	const [clientFilter, setClientFilter] = useState<string>('all');
+	const [selectedStatus, setSelectedStatus] = useState('All');
+	const [selectedProfession, setSelectedProfession] = useState('All');
+	const [selectedClientType, setSelectedClientType] = useState('All');
 
-	const filteredClients = clients.filter(
-		client =>
+	const filteredClients = clients.filter(client => {
+		const matchesSearch =
 			client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			client.mainContact.name
 				.toLowerCase()
 				.includes(searchQuery.toLowerCase()) ||
-			client.lastPosition.toLowerCase().includes(searchQuery.toLowerCase())
-	);
+			client.lastPosition.toLowerCase().includes(searchQuery.toLowerCase());
+
+		const matchesStatus =
+			selectedStatus === 'All' || client.status === selectedStatus;
+
+		const matchesProfession =
+			selectedProfession === 'All' ||
+			client.lastPosition
+				.toLowerCase()
+				.includes(selectedProfession.toLowerCase());
+
+		const matchesClientType =
+			selectedClientType === 'All' ||
+			client.mainContact.type === selectedClientType.toLowerCase();
+
+		return (
+			matchesSearch && matchesStatus && matchesProfession && matchesClientType
+		);
+	});
 
 	const handleSelectAll = (checked: boolean) => {
 		if (checked) {
@@ -177,9 +205,7 @@ export default function ClientsPage() {
 							}
 						/>
 					</Box>
-					<HStack
-           gap={4}
-          >
+					<HStack gap={4}>
 						<IconButton
 							className='text-red-400 bg-red-100'
 							variant='ghost'
@@ -196,128 +222,89 @@ export default function ClientsPage() {
 							fontSize='16px'
 							lineHeight='24px'
 							letterSpacing='0.4px'
-              onClick={() => setShowFilters(!showFilters)}
+							onClick={() => setShowFilters(!showFilters)}
 						>
-							<VscSettings /> Show Filters
+							<VscSettings /> {showFilters ? 'Hide Filters' : 'Show Filters'}
 						</Button>
 					</HStack>
 				</Flex>
 
 				{showFilters && (
 					<HStack gap='4'>
-						<MenuRoot>
-							<Button
-								as={Button}
-								size='sm'
-								variant='outline'
-								// rightIcon={<LuChevronDown />}
-							>
-								Active: {activeFilter === 'all' ? 'All' : activeFilter}
-							</Button>
-							<MenuContent>
-								<MenuItem value='all' onClick={() => setActiveFilter('all')}>
-									All
-								</MenuItem>
-								<MenuItem
-									value='active'
-									onClick={() => setActiveFilter('active')}
-								>
-									Active
-								</MenuItem>
-								<MenuItem
-									value='inactive'
-									onClick={() => setActiveFilter('inactive')}
-								>
-									Inactive
-								</MenuItem>
-								<MenuItem
-									value='pending'
-									onClick={() => setActiveFilter('pending')}
-								>
-									Pending
-								</MenuItem>
-							</MenuContent>
-						</MenuRoot>
+						<SelectRoot
+							collection={createListCollection({
+								items: status,
+							})}
+							size='sm'
+							width='320px'
+							value={selectedStatus}
+							onChange={value => setSelectedStatus(value)}
+						>
+							<SelectTrigger>
+								<SelectValueText>Status: {selectedStatus}</SelectValueText>
+							</SelectTrigger>
+							<SelectContent>
+								{status.map(item => (
+									<SelectItem item={item} key={item}>
+										{item}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</SelectRoot>
 
-						<MenuRoot>
-							<Button
-								as={Button}
-								size='sm'
-								variant='outline'
-								// rightIcon={<LuChevronDown />}
-							>
-								Profession:{' '}
-								{professionFilter === 'all' ? 'All' : professionFilter}
-							</Button>
-							<MenuContent>
-								<MenuItem
-									value='all'
-									onClick={() => setProfessionFilter('all')}
-								>
-									All
-								</MenuItem>
-								<MenuItem
-									value='developer'
-									onClick={() => setProfessionFilter('developer')}
-								>
-									Developer
-								</MenuItem>
-								<MenuItem
-									value='designer'
-									onClick={() => setProfessionFilter('designer')}
-								>
-									Designer
-								</MenuItem>
-								<MenuItem
-									value='manager'
-									onClick={() => setProfessionFilter('manager')}
-								>
-									Manager
-								</MenuItem>
-							</MenuContent>
-						</MenuRoot>
+						<SelectRoot
+							collection={createListCollection({
+								items: professions,
+							})}
+							size='sm'
+							width='320px'
+							value={selectedProfession}
+							onChange={value => setSelectedProfession(value)}
+						>
+							<SelectTrigger>
+								<SelectValueText>
+									Profession: {selectedProfession}
+								</SelectValueText>
+							</SelectTrigger>
+							<SelectContent>
+								{professions.map(item => (
+									<SelectItem item={item} key={item}>
+										{item}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</SelectRoot>
 
-						<MenuRoot>
-							<Button
-								as={Button}
-								size='sm'
-								variant='outline'
-								// rightIcon={<LuChevronDown />}
-							>
-								Client: {clientFilter === 'all' ? 'All' : clientFilter}
-							</Button>
-							<MenuContent>
-								<MenuItem value='all' onClick={() => setClientFilter('all')}>
-									All
-								</MenuItem>
-								<MenuItem
-									value='client'
-									onClick={() => setClientFilter('client')}
-								>
-									Client
-								</MenuItem>
-								<MenuItem
-									value='attendee'
-									onClick={() => setClientFilter('attendee')}
-								>
-									Attendee
-								</MenuItem>
-								<MenuItem
-									value='interview'
-									onClick={() => setClientFilter('interview')}
-								>
-									Interview
-								</MenuItem>
-							</MenuContent>
-						</MenuRoot>
+						<SelectRoot
+							collection={createListCollection({
+								items: clientTypes,
+							})}
+							size='sm'
+							width='320px'
+							value={selectedClientType}
+							onChange={value => setSelectedClientType(value)}
+						>
+							<SelectTrigger>
+								<SelectValueText>
+									Client Type: {selectedClientType}
+								</SelectValueText>
+							</SelectTrigger>
+							<SelectContent>
+								{clientTypes.map(item => (
+									<SelectItem item={item} key={item}>
+										{item}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</SelectRoot>
 
 						<Button
 							size='sm'
 							variant='ghost'
 							onClick={() => {
-								setActiveFilter('all');
-								setProfessionFilter('all');
-								setClientFilter('all');
+								setSelectedStatus('All');
+								setSelectedProfession('All');
+								setSelectedClientType('All');
 							}}
 						>
 							Reset
@@ -443,7 +430,7 @@ function getStatusStyles(status: string) {
 				bg: 'green.100',
 				color: 'green.700',
 			};
-		case 'Pending':
+		case 'Ina':
 			return {
 				bg: 'yellow.100',
 				color: 'yellow.700',
