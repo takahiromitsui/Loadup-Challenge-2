@@ -4,6 +4,7 @@ import './globals.css';
 import { Box } from '@chakra-ui/react';
 import Providers from '@/components/providers';
 import Sidebar from '@/components/sidebar';
+import Navbar from '@/components/navbar';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
 	subsets: ['latin'],
@@ -26,13 +27,13 @@ export default function RootLayout({
 				<Providers>
 					<Box minH='100vh' bg='gray.50'>
 						<Sidebar />
-						<Box ml={{ base: 0, lg: '240px' }} transition='margin-left 0.3s'>
-							{/* <Navbar />
-							<Box
-								as='main'
-								pt='80px' // 60px navbar height + 20px spacing
-								px={{ base: '6', lg: '10' }}
-							> */}
+						<Navbar />
+						<Box
+              as="main"
+							ml={{ base: '96px', lg: '240px' }}
+							transition='margin-left 0.3s'
+							pt='80px'
+						>
 							{children}
 						</Box>
 					</Box>

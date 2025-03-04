@@ -5,26 +5,13 @@ import {
 	Flex,
 	IconButton,
 	VStack,
-	useDisclosure,
 	Icon,
 	Text,
 	Link,
 } from '@chakra-ui/react';
 import { Tooltip } from '@/components/ui/tooltip';
-import { LuMenu, LuChevronRight, LuChevronLeft } from 'react-icons/lu';
-import {
-	LuPackage,
-	LuUsers,
-	LuTruck,
-	LuChevronDown,
-	LuPlus,
-	LuAward,
-	LuUserPlus,
-	LuSettings,
-	LuLayoutGrid,
-	LuImage,
-} from 'react-icons/lu';
-import { useState } from 'react';
+import { LuChevronRight, LuChevronLeft } from 'react-icons/lu';
+import { LuTruck, LuAward, LuSettings, LuImage } from 'react-icons/lu';
 import Image from 'next/image';
 import { BsPersonSquare } from 'react-icons/bs';
 import { MdOutlineEmail } from 'react-icons/md';
@@ -33,6 +20,7 @@ import { GoPeople } from 'react-icons/go';
 import { MdKeyboardCommandKey } from 'react-icons/md';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSidebar } from './providers/sidebar-provider';
 
 interface NavItemProps {
 	icon: any;
@@ -87,8 +75,7 @@ const NavItem = ({ icon, isActive, isExpanded, label, href }: NavItemProps) => {
 };
 
 export default function Sidebar() {
-	const [isOpen, setIsOpen] = useState(true);
-	const [activeItem, setActiveItem] = useState('Dashboard');
+	const { isOpen, setIsOpen } = useSidebar();
 
 	return (
 		<Box
@@ -136,11 +123,7 @@ export default function Sidebar() {
 						boxShadow='md'
 						_hover={{ bg: 'gray.100' }}
 					>
-						{isOpen ? (
-							<LuChevronLeft onClick={() => setIsOpen(!isOpen)} />
-						) : (
-							<LuChevronRight onClick={() => setIsOpen(!isOpen)} />
-						)}
+						{isOpen ? <LuChevronLeft /> : <LuChevronRight />}
 					</IconButton>
 				</Box>
 
