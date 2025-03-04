@@ -24,6 +24,7 @@ export default function Navbar() {
 			borderBottom='1px'
 			borderColor='gray.200'
 			as='header'
+			zIndex={5}
 		>
 			<Flex px='32px' h='full' align='center' justify='space-between'>
 				<Text fontSize='26px' fontWeight='600' color='#1C170D'>

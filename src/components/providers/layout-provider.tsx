@@ -19,6 +19,7 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
 				pt='116px'
 				pr='20px'
 				width={`calc(100% - ${isOpen ? '260px' : '116px'} )`}
+				zIndex={1}
 			>
 				{children}
 			</Box>
