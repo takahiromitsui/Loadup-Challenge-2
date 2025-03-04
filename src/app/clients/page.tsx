@@ -36,7 +36,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { VscSettings } from 'react-icons/vsc';
 import { useState, ChangeEvent } from 'react';
 import { statusAnatomy } from '@chakra-ui/react/anatomy';
-import { HiOutlineDotsVertical } from "react-icons/hi";
+import { HiOutlineDotsVertical } from 'react-icons/hi';
 
 interface Client {
 	id: number;
@@ -280,6 +280,7 @@ export default function ClientsPage() {
 				my='4'
 				border='1px'
 				borderColor='gray.200'
+				w='full'
 			>
 				<Table.Root size='md'>
 					<Table.Header bg='gray.50'>
@@ -432,15 +433,13 @@ export default function ClientsPage() {
 												variant='ghost'
 												size='sm'
 												aria-label='More options'
-												
 											>
 												<HiOutlineDotsVertical />
-                      </IconButton>
-
+											</IconButton>
 										</MenuTrigger>
 										<MenuContent>
 											<MenuItem value='delete' color='red.500'>
-                      <RiDeleteBinLine /> Delete
+												<RiDeleteBinLine /> Delete
 											</MenuItem>
 										</MenuContent>
 									</MenuRoot>
@@ -449,15 +448,30 @@ export default function ClientsPage() {
 						))}
 					</Table.Body>
 				</Table.Root>
+        
 			</Box>
 
-			<Box display='flex' justifyContent='center'>
-				<PaginationRoot count={20} pageSize={5} defaultPage={1}>
-					<HStack gap='2'>
-						<PaginationPrevTrigger />
-						<PaginationItems />
-						<PaginationNextTrigger />
-					</HStack>
+			<Box
+				bg='white'
+				borderRadius='lg'
+				shadow='sm'
+				p='4'
+				border='1px'
+				borderColor='gray.200'
+				w='full'
+			>
+				<PaginationRoot count={20} pageSize={5} defaultPage={1} size='sm'>
+					<Flex justify='space-between' align='center' w='full'>
+						<Box>
+							<PaginationPrevTrigger />
+						</Box>
+						<HStack gap='2'>
+							<PaginationItems />
+						</HStack>
+						<Box>
+							<PaginationNextTrigger />
+						</Box>
+					</Flex>
 				</PaginationRoot>
 			</Box>
 		</Box>
