@@ -36,6 +36,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import { VscSettings } from 'react-icons/vsc';
 import { useState, ChangeEvent } from 'react';
 import { statusAnatomy } from '@chakra-ui/react/anatomy';
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 interface Client {
 	id: number;
@@ -342,7 +343,14 @@ export default function ClientsPage() {
 							>
 								Status
 							</Table.ColumnHeader>
-							<Table.ColumnHeader width='40px' py='4'></Table.ColumnHeader>
+							<Table.ColumnHeader
+								py='4'
+								textAlign='left'
+								fontWeight='600'
+								pl='4'
+							>
+								Action
+							</Table.ColumnHeader>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
@@ -426,14 +434,13 @@ export default function ClientsPage() {
 												aria-label='More options'
 												
 											>
-												<LuChevronDown />
+												<HiOutlineDotsVertical />
                       </IconButton>
 
 										</MenuTrigger>
 										<MenuContent>
-											<MenuItem value='edit'>Edit</MenuItem>
 											<MenuItem value='delete' color='red.500'>
-												Delete
+                      <RiDeleteBinLine /> Delete
 											</MenuItem>
 										</MenuContent>
 									</MenuRoot>
