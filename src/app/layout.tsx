@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
-import { Box } from '@chakra-ui/react';
 import Providers from '@/components/providers/providers';
 import Sidebar from '@/components/sidebar';
 import Navbar from '@/components/navbar';
@@ -24,20 +23,7 @@ export default function RootLayout({
 	return (
 		<html lang='en' className={plusJakartaSans.className}>
 			<body>
-				<Providers>
-					<Box minH='100vh' bg='gray.50'>
-						<Sidebar />
-						<Navbar />
-						<Box
-							as='main'
-							ml={{ base: '96px', lg: '240px' }}
-							transition='margin-left 0.3s'
-							pt='80px'
-						>
-							{children}
-						</Box>
-					</Box>
-				</Providers>
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);
