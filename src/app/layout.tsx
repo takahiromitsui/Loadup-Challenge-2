@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Box } from '@chakra-ui/react';
-import Providers from '@/components/providers';
+import Providers from '@/components/providers/providers';
 import Sidebar from '@/components/sidebar';
 import Navbar from '@/components/navbar';
 

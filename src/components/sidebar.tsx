@@ -47,7 +47,7 @@ const NavItem = ({ icon, isActive, isExpanded, label, href }: NavItemProps) => {
 			>
 				<Flex
 					p={3}
-					mx={2}
+					mx={isExpanded ? 2 : 0}
 					borderRadius='lg'
 					role='group'
 					cursor='pointer'
@@ -88,8 +88,8 @@ export default function Sidebar() {
 			transition='width 0.3s ease'
 			zIndex={10}
 		>
-			<Flex direction='column' h='full' py='21px' px='22px'>
-				<Flex align='center' justify='center' mb='55px'>
+			<Flex direction='column' h='full' py='21px'>
+				<Flex align='center' justify='center' mb='55px' h='54px'>
 					{isOpen ? (
 						<Text
 							textAlign='center'
@@ -99,11 +99,20 @@ export default function Sidebar() {
 							lineHeight='29.62px'
 							letterSpacing='0px'
 							color='#1C170D'
+							px='22px'
 						>
 							LoadUp Portal
 						</Text>
 					) : (
-						<Image src='/img/logo.svg' alt='logo' width={54} height={54} />
+						<Box w='54px' h='54px'>
+							<Image
+								src='/img/logo.svg'
+								alt='logo'
+								width={54}
+								height={54}
+								style={{ width: '54px', height: '54px' }}
+							/>
+						</Box>
 					)}
 				</Flex>
 
@@ -129,7 +138,7 @@ export default function Sidebar() {
 					</IconButton>
 				</Box>
 
-				<VStack gap={2} align='stretch' flex={1}>
+				<VStack gap={2} align='stretch' flex={1} px={isOpen ? '22px' : '21px'}>
 					<NavItem
 						icon={BsPersonSquare}
 						isExpanded={isOpen}
