@@ -26,6 +26,7 @@ import {
 	MenuTrigger,
 } from '@/components/ui/menu';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import { VscSettings } from "react-icons/vsc";
 import { useState, ChangeEvent } from 'react';
 
 interface Client {
@@ -176,7 +177,9 @@ export default function ClientsPage() {
 							}
 						/>
 					</Box>
-					<HStack>
+					<HStack
+           gap={4}
+          >
 						<IconButton
 							className='text-red-400 bg-red-100'
 							variant='ghost'
@@ -186,12 +189,16 @@ export default function ClientsPage() {
 							<RiDeleteBinLine />
 						</IconButton>
 						<Button
-							size='sm'
-							variant='outline'
-							onClick={() => setShowFilters(!showFilters)}
-							// leftIcon={<LuFilter />}
+							bg='white'
+							borderRadius='10px'
+							px='10px'
+							fontWeight='500'
+							fontSize='16px'
+							lineHeight='24px'
+							letterSpacing='0.4px'
+              onClick={() => setShowFilters(!showFilters)}
 						>
-							Filter
+							<VscSettings /> Show Filters
 						</Button>
 					</HStack>
 				</Flex>
