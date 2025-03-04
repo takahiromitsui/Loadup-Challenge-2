@@ -10,7 +10,7 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { Tooltip } from '@/components/ui/tooltip';
-import { LuMenu } from 'react-icons/lu';
+import { LuMenu, LuChevronRight, LuChevronLeft } from 'react-icons/lu';
 import {
 	LuPackage,
 	LuUsers,
@@ -79,32 +79,50 @@ export default function Sidebar() {
 			bg='white'
 			boxShadow='sm'
 			transition='width 0.3s ease'
-			onMouseEnter={() => setIsOpen(true)}
-			onMouseLeave={() => setIsOpen(false)}
 		>
 			<Flex direction='column' h='full' py='21px' px='22px'>
-				<Flex
-					px={4}
-					align='center'
-					mb={8}
-					justify={isOpen ? 'flex-end' : 'center'}
-				>
-					{/* <IconButton
-						aria-label='Toggle Sidebar'
-						variant='ghost'
-						onClick={() => setIsOpen(!isOpen)}
-						size='sm'
-					> */}
-					{/* <Image src='/img/logo.svg' alt='logo' width={54} height={54} /> */}
+				<Flex align='center' justify='center' mb='55px'>
 					{isOpen ? (
-						<Text fontSize='2xl' fontWeight='bold'>
+						<Text
+							textAlign='center'
+							width='full'
+							fontSize='26px'
+							fontWeight='700'
+							lineHeight='29.62px'
+							letterSpacing='0px'
+							color='#1C170D'
+						>
 							LoadUp Portal
 						</Text>
 					) : (
 						<Image src='/img/logo.svg' alt='logo' width={54} height={54} />
 					)}
-					{/* </IconButton> */}
 				</Flex>
+
+				{/* Toggle Button */}
+				<Box
+					position='absolute'
+					left={isOpen ? '208px' : '64px'}
+					top='89px'
+					transition='left 0.3s ease'
+				>
+					<IconButton
+						aria-label='Toggle Sidebar'
+						variant='ghost'
+						onClick={() => setIsOpen(!isOpen)}
+						size='sm'
+						borderRadius='full'
+						bg='white'
+						boxShadow='md'
+						_hover={{ bg: 'gray.100' }}
+					>
+						{isOpen ? (
+							<LuChevronLeft onClick={() => setIsOpen(!isOpen)} />
+						) : (
+							<LuChevronRight onClick={() => setIsOpen(!isOpen)} />
+						)}
+					</IconButton>
+				</Box>
 
 				<VStack gap={2} align='stretch' flex={1}>
 					<NavItem

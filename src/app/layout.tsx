@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Box } from '@chakra-ui/react';
 import Providers from '@/components/providers';
 import Sidebar from '@/components/sidebar';
 
-const inter = Inter({ subsets: ['latin'] });
+const plusJakartaSans = Plus_Jakarta_Sans({
+	subsets: ['latin'],
+	weight: ['400', '500', '600', '700'],
+});
 
 export const metadata: Metadata = {
 	title: 'Loadup App',
@@ -18,8 +21,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en'>
-			<body className={inter.className}>
+		<html lang='en' className={plusJakartaSans.className}>
+			<body>
 				<Providers>
 					<Box minH='100vh' bg='gray.50'>
 						<Sidebar />
