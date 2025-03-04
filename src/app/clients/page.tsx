@@ -17,6 +17,7 @@ import {
 	SelectContent,
 	createListCollection,
 	SelectItem,
+	Avatar,
 } from '@chakra-ui/react';
 import { LuFilter, LuSearch, LuChevronDown } from 'react-icons/lu';
 import {
@@ -50,7 +51,7 @@ interface Client {
 const clients: Client[] = [
 	{
 		id: 1,
-		name: 'Tech Solutions GmbH',
+		name: 'Annette Black',
 		mainContact: {
 			name: 'John Doe',
 			type: 'client',
@@ -60,7 +61,7 @@ const clients: Client[] = [
 	},
 	{
 		id: 2,
-		name: 'Design Studio Berlin',
+		name: 'Jerome Bell',
 		mainContact: {
 			name: 'Jane Smith',
 			type: 'interview',
@@ -70,7 +71,7 @@ const clients: Client[] = [
 	},
 	{
 		id: 3,
-		name: 'Marketing Pro AG',
+		name: 'Jacob Jones',
 		mainContact: {
 			name: 'Mike Johnson',
 			type: 'attendee',
@@ -80,7 +81,7 @@ const clients: Client[] = [
 	},
 	{
 		id: 4,
-		name: 'Creative Labs Ltd',
+		name: 'Jane Cooper',
 		mainContact: {
 			name: 'Sarah Williams',
 			type: 'client',
@@ -90,7 +91,7 @@ const clients: Client[] = [
 	},
 	{
 		id: 5,
-		name: 'Solutions Inc',
+		name: 'Annette Black',
 		mainContact: {
 			name: 'David Brown',
 			type: 'interview',
@@ -229,68 +230,25 @@ export default function ClientsPage() {
 					</HStack>
 				</Flex>
 
-				{showFilters && (
+				{/* {showFilters && (
 					<HStack gap='4'>
 						<SelectRoot
 							collection={createListCollection({
 								items: status,
 							})}
 							size='sm'
-							width='320px'
-							value={selectedStatus}
-							onChange={value => setSelectedStatus(value)}
+							width='114px'
+							border='1px solid #E9EBED'
+							// bg='white'
+							px='15px'
+							// height='40px'
+							borderRadius='10px'
 						>
 							<SelectTrigger>
-								<SelectValueText>Status: {selectedStatus}</SelectValueText>
+								<SelectValueText placeholder={status[0]} />
 							</SelectTrigger>
 							<SelectContent>
 								{status.map(item => (
-									<SelectItem item={item} key={item}>
-										{item}
-									</SelectItem>
-								))}
-							</SelectContent>
-						</SelectRoot>
-
-						<SelectRoot
-							collection={createListCollection({
-								items: professions,
-							})}
-							size='sm'
-							width='320px'
-							value={selectedProfession}
-							onChange={value => setSelectedProfession(value)}
-						>
-							<SelectTrigger>
-								<SelectValueText>
-									Profession: {selectedProfession}
-								</SelectValueText>
-							</SelectTrigger>
-							<SelectContent>
-								{professions.map(item => (
-									<SelectItem item={item} key={item}>
-										{item}
-									</SelectItem>
-								))}
-							</SelectContent>
-						</SelectRoot>
-
-						<SelectRoot
-							collection={createListCollection({
-								items: clientTypes,
-							})}
-							size='sm'
-							width='320px'
-							value={selectedClientType}
-							onChange={value => setSelectedClientType(value)}
-						>
-							<SelectTrigger>
-								<SelectValueText>
-									Client Type: {selectedClientType}
-								</SelectValueText>
-							</SelectTrigger>
-							<SelectContent>
-								{clientTypes.map(item => (
 									<SelectItem item={item} key={item}>
 										{item}
 									</SelectItem>
@@ -310,14 +268,22 @@ export default function ClientsPage() {
 							Reset
 						</Button>
 					</HStack>
-				)}
+				)} */}
 			</VStack>
 
-			<Box bg='white' borderRadius='lg' shadow='sm' overflow='hidden' my='4'>
+			<Box
+				bg='white'
+				borderRadius='lg'
+				shadow='sm'
+				overflow='hidden'
+				my='4'
+				border='1px'
+				borderColor='gray.200'
+			>
 				<Table.Root size='md'>
-					<Table.Header>
+					<Table.Header bg='gray.50'>
 						<Table.Row>
-							<Table.ColumnHeader width='40px' padding='0' textAlign='center'>
+							<Table.ColumnHeader width='40px' py='4' textAlign='center'>
 								<Box
 									as='label'
 									display='flex'
@@ -334,21 +300,60 @@ export default function ClientsPage() {
 										onChange={(e: ChangeEvent<HTMLInputElement>) =>
 											handleSelectAll(e.target.checked)
 										}
-										style={{ margin: 0 }}
+										style={{
+											margin: 0,
+											width: '16px',
+											height: '16px',
+											borderRadius: '4px',
+											accentColor: '#3182CE',
+										}}
 									/>
 								</Box>
 							</Table.ColumnHeader>
-							<Table.ColumnHeader>Client Name</Table.ColumnHeader>
-							<Table.ColumnHeader>Main Contact</Table.ColumnHeader>
-							<Table.ColumnHeader>Last Position</Table.ColumnHeader>
-							<Table.ColumnHeader>Status</Table.ColumnHeader>
-							<Table.ColumnHeader width='40px'></Table.ColumnHeader>
+							<Table.ColumnHeader
+								py='4'
+								textAlign='left'
+								fontWeight='600'
+								pl='4'
+							>
+								Client Name
+							</Table.ColumnHeader>
+							<Table.ColumnHeader
+								py='4'
+								textAlign='left'
+								fontWeight='600'
+								pl='4'
+							>
+								Main Contact
+							</Table.ColumnHeader>
+							<Table.ColumnHeader
+								py='4'
+								textAlign='left'
+								fontWeight='600'
+								pl='4'
+							>
+								Last Position
+							</Table.ColumnHeader>
+							<Table.ColumnHeader
+								py='4'
+								textAlign='left'
+								fontWeight='600'
+								pl='4'
+							>
+								Status
+							</Table.ColumnHeader>
+							<Table.ColumnHeader width='40px' py='4'></Table.ColumnHeader>
 						</Table.Row>
 					</Table.Header>
 					<Table.Body>
 						{filteredClients.map(client => (
-							<Table.Row key={client.id} _hover={{ bg: 'gray.50' }}>
-								<Table.Cell padding='0' textAlign='center'>
+							<Table.Row
+								key={client.id}
+								_hover={{ bg: 'gray.50' }}
+								borderBottom='1px'
+								borderColor='gray.100'
+							>
+								<Table.Cell py='4' textAlign='center'>
 									<Box
 										as='label'
 										display='flex'
@@ -362,28 +367,47 @@ export default function ClientsPage() {
 											onChange={(e: ChangeEvent<HTMLInputElement>) =>
 												handleSelectClient(client.id, e.target.checked)
 											}
-											style={{ margin: 0 }}
+											style={{
+												margin: 0,
+												width: '16px',
+												height: '16px',
+												borderRadius: '4px',
+												accentColor: '#3182CE',
+											}}
 										/>
 									</Box>
 								</Table.Cell>
-								<Table.Cell fontWeight='500'>{client.name}</Table.Cell>
-								<Table.Cell>
-									<Box>
-										<Text>{client.mainContact.name}</Text>
-										<Text
-											fontSize='sm'
-											color='gray.500'
-											textTransform='capitalize'
-										>
-											{client.mainContact.type}
-										</Text>
-									</Box>
+								<Table.Cell py='4' pl='4'>
+									<Flex align='center' gap='3'>
+										<Avatar.Root size='sm'>
+											<Avatar.Image src={''} />
+											<Avatar.Fallback
+												bg='blue.100'
+												color='blue.600'
+												name={`${client.name}`}
+											/>
+										</Avatar.Root>
+										<Text fontWeight='500'>{client.name}</Text>
+									</Flex>
 								</Table.Cell>
-								<Table.Cell color='gray.600'>{client.lastPosition}</Table.Cell>
-								<Table.Cell>
+								<Table.Cell py='4' pl='4'>
+									<Text
+										textTransform='capitalize'
+										fontSize='sm'
+										color='gray.700'
+									>
+										{client.mainContact.type}
+									</Text>
+								</Table.Cell>
+								<Table.Cell py='4' pl='4'>
+									<Text fontSize='sm' color='gray.600'>
+										{client.lastPosition}
+									</Text>
+								</Table.Cell>
+								<Table.Cell py='4' pl='4'>
 									<Box
 										display='inline-flex'
-										px='2'
+										px='3'
 										py='1'
 										borderRadius='full'
 										fontSize='sm'
@@ -393,16 +417,26 @@ export default function ClientsPage() {
 										{client.status}
 									</Box>
 								</Table.Cell>
-								<Table.Cell padding='0'>
-									<Box position='relative'>
-										<IconButton
-											// icon={<LuMoreHorizontal />}
-											variant='ghost'
-											size='sm'
-											aria-label='More options'
-											onClick={() => {}}
-										/>
-									</Box>
+								<Table.Cell py='4' textAlign='center'>
+									<MenuRoot>
+										<MenuTrigger asChild>
+											<IconButton
+												variant='ghost'
+												size='sm'
+												aria-label='More options'
+												
+											>
+												<LuChevronDown />
+                      </IconButton>
+
+										</MenuTrigger>
+										<MenuContent>
+											<MenuItem value='edit'>Edit</MenuItem>
+											<MenuItem value='delete' color='red.500'>
+												Delete
+											</MenuItem>
+										</MenuContent>
+									</MenuRoot>
 								</Table.Cell>
 							</Table.Row>
 						))}
@@ -427,23 +461,23 @@ function getStatusStyles(status: string) {
 	switch (status) {
 		case 'Active':
 			return {
-				bg: 'green.100',
-				color: 'green.700',
+				bg: 'green.50',
+				color: 'green.600',
 			};
 		case 'Ina':
 			return {
-				bg: 'yellow.100',
-				color: 'yellow.700',
+				bg: 'yellow.50',
+				color: 'yellow.600',
 			};
 		case 'Inactive':
 			return {
-				bg: 'gray.100',
-				color: 'gray.700',
+				bg: 'gray.50',
+				color: 'gray.600',
 			};
 		default:
 			return {
-				bg: 'gray.100',
-				color: 'gray.700',
+				bg: 'gray.50',
+				color: 'gray.600',
 			};
 	}
 }
