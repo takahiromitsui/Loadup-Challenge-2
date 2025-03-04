@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Box } from '@chakra-ui/react';
 import Providers from '@/components/providers';
+import Sidebar from '@/components/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<Providers>
 					<Box minH='100vh' bg='gray.50'>
-						{/* <Sidebar /> */}
+						<Sidebar />
 						<Box ml={{ base: 0, lg: '240px' }} transition='margin-left 0.3s'>
 							{/* <Navbar />
 							<Box
