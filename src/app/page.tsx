@@ -1,6 +1,14 @@
 'use client';
 
-import { Flex, Text, Box, Switch, Button, VStack } from '@chakra-ui/react';
+import {
+	Flex,
+	Text,
+	Box,
+	Switch,
+	Button,
+	VStack,
+	SimpleGrid,
+} from '@chakra-ui/react';
 import {
 	SelectContent,
 	SelectItem,
@@ -87,6 +95,16 @@ export default function Home() {
 		}));
 	};
 
+	const handleItemRemove = (
+		cardType: 'new' | 'rejected' | 'firstSpeech' | 'interview',
+		index: number
+	) => {
+		setCardStates(prev => ({
+			...prev,
+			[cardType]: prev[cardType].filter((_, i) => i !== index),
+		}));
+	};
+
 	return (
 		<VStack gap='24px' width='full'>
 			<Flex justify='space-between' width='full'>
@@ -156,24 +174,28 @@ export default function Home() {
 					color={initialData.new.color}
 					items={cardStates.new}
 					onItemsChange={items => handleItemsChange('new', items)}
+					onItemRemove={index => handleItemRemove('new', index)}
 				/>
 				<EditableCard
 					title={initialData.firstSpeech.title}
 					color={initialData.firstSpeech.color}
 					items={cardStates.firstSpeech}
 					onItemsChange={items => handleItemsChange('firstSpeech', items)}
+					onItemRemove={index => handleItemRemove('firstSpeech', index)}
 				/>
 				<EditableCard
 					title={initialData.interview.title}
 					color={initialData.interview.color}
 					items={cardStates.interview}
 					onItemsChange={items => handleItemsChange('interview', items)}
+					onItemRemove={index => handleItemRemove('interview', index)}
 				/>
 				<EditableCard
 					title={initialData.rejected.title}
 					color={initialData.rejected.color}
 					items={cardStates.rejected}
 					onItemsChange={items => handleItemsChange('rejected', items)}
+					onItemRemove={index => handleItemRemove('rejected', index)}
 				/>
 			</Flex>
 		</VStack>

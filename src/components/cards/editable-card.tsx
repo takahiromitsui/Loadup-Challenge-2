@@ -14,6 +14,7 @@ interface EditableCardProps {
 	color: string;
 	items: EditableItem[];
 	onItemsChange?: (items: EditableItem[]) => void;
+	onItemRemove?: (index: number) => void;
 }
 
 export default function EditableCard({
@@ -21,19 +22,44 @@ export default function EditableCard({
 	color,
 	items = [],
 	onItemsChange,
+	onItemRemove,
 }: EditableCardProps) {
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 
 	const handleDragStart = (e: React.DragEvent, index: number) => {
-		e.dataTransfer.setData('text/plain', index.toString());
+		// Store both the source card title and the item index
+		e.dataTransfer.setData(
+			'application/json',
+			JSON.stringify({
+				sourceTitle: title,
+				itemIndex: index,
+				item: items[index],
+			})
+		);
 	};
 
 	const handleDragEnd = (e: React.DragEvent, index: number) => {
-		// If the item was dropped outside of a valid drop target
-		if (e.dataTransfer.dropEffect === 'none') {
-			const newItems = [...items];
-			newItems.splice(index, 1);
-			onItemsChange?.(newItems);
+		// If the drop was successful (not cancelled)
+		if (e.dataTransfer.dropEffect === 'move') {
+			onItemRemove?.(index);
+		}
+	};
+
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDraggingOver(false);
+
+		try {
+			const data = JSON.parse(e.dataTransfer.getData('application/json'));
+
+			// Only process if the item is coming from a different card
+			if (data.sourceTitle !== title) {
+				const newItems = [...items, data.item];
+				onItemsChange?.(newItems);
+				e.dataTransfer.dropEffect = 'move';
+			}
+		} catch (error) {
+			console.error('Error processing drop:', error);
 		}
 	};
 
@@ -46,8 +72,11 @@ export default function EditableCard({
 			boxShadow='sm'
 			border='1px solid'
 			borderColor='gray.200'
+			height='400px'
+			display='flex'
+			flexDirection='column'
 		>
-			<Flex align='center' mb='16px'>
+			<Flex align='center' mb='16px' flexShrink={0}>
 				<Box w='3px' h='20px' bg={color} borderRadius='full' mr='8px' />
 				<Text fontSize='16px' fontWeight='600' color='#1C170D' flex={1}>
 					{title}
@@ -61,6 +90,24 @@ export default function EditableCard({
 				gap='8px'
 				align='stretch'
 				minH='100px'
+				flex={1}
+				overflowY='auto'
+				css={{
+					'&::-webkit-scrollbar': {
+						width: '4px',
+					},
+					'&::-webkit-scrollbar-track': {
+						background: '#f1f1f1',
+						borderRadius: '2px',
+					},
+					'&::-webkit-scrollbar-thumb': {
+						background: '#888',
+						borderRadius: '2px',
+					},
+					'&::-webkit-scrollbar-thumb:hover': {
+						background: '#555',
+					},
+				}}
 				bg={isDraggingOver ? 'gray.50' : 'transparent'}
 				borderRadius='8px'
 				transition='background-color 0.2s'
@@ -69,11 +116,25 @@ export default function EditableCard({
 					setIsDraggingOver(true);
 				}}
 				onDragLeave={() => setIsDraggingOver(false)}
-				onDrop={e => {
-					e.preventDefault();
-					setIsDraggingOver(false);
-				}}
+				onDrop={handleDrop}
 			>
+				<Flex
+					align='center'
+					justify='center'
+					h='100px'
+					borderRadius='8px'
+					border='2px dashed'
+					borderColor={isDraggingOver ? 'blue.300' : 'gray.200'}
+					bg={isDraggingOver ? 'blue.50' : 'transparent'}
+					transition='all 0.2s'
+				>
+					<Text
+						color={isDraggingOver ? 'blue.500' : 'gray.400'}
+						fontSize='14px'
+					>
+						Hier hin ziehen
+					</Text>
+				</Flex>
 				{items.map((item, index) => (
 					<Box
 						key={index}
@@ -105,20 +166,6 @@ export default function EditableCard({
 						</Flex>
 					</Box>
 				))}
-				{items.length === 0 && (
-					<Flex
-						align='center'
-						justify='center'
-						h='100px'
-						borderRadius='8px'
-						border='2px dashed'
-						borderColor='gray.200'
-					>
-						<Text color='gray.400' fontSize='14px'>
-							Hier hin Ziehen
-						</Text>
-					</Flex>
-				)}
 			</VStack>
 		</Box>
 	);
