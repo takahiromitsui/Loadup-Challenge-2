@@ -16,7 +16,7 @@ import {
 	HiMiniEllipsisHorizontal,
 } from 'react-icons/hi2';
 import { LinkButton } from './link-button';
-
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 interface ButtonVariantMap {
 	current: ButtonProps['variant'];
 	default: ButtonProps['variant'];
@@ -144,8 +144,8 @@ export const PaginationPrevTrigger = React.forwardRef<
 				_hover={{ bg: 'gray.100' }}
 				fontWeight='400'
 			>
-				<HiChevronLeft style={{ marginRight: '8px' }} />
-				Previous
+				<FaArrowLeft style={{ marginRight: '8px' }} />
+				<Text fontWeight='500'>Previous</Text>
 			</Button>
 		</ChakraPagination.PrevTrigger>
 	);
@@ -165,7 +165,7 @@ export const PaginationNextTrigger = React.forwardRef<
 				variant='ghost'
 				size={size}
 			>
-				Next
+				<Text fontWeight='500'>Next</Text>
 			</LinkButton>
 		);
 	}
@@ -180,7 +180,7 @@ export const PaginationNextTrigger = React.forwardRef<
 				fontWeight='400'
 			>
 				Next
-				<HiChevronRight style={{ marginLeft: '8px' }} />
+				<FaArrowRight style={{ marginLeft: '8px' }} />
 			</Button>
 		</ChakraPagination.NextTrigger>
 	);

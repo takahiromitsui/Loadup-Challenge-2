@@ -448,31 +448,21 @@ export default function ClientsPage() {
 						))}
 					</Table.Body>
 				</Table.Root>
-        
-			</Box>
-
-			<Box
-				bg='white'
-				borderRadius='lg'
-				shadow='sm'
-				p='4'
-				border='1px'
-				borderColor='gray.200'
-				w='full'
-			>
-				<PaginationRoot count={20} pageSize={5} defaultPage={1} size='sm'>
-					<Flex justify='space-between' align='center' w='full'>
-						<Box>
-							<PaginationPrevTrigger />
-						</Box>
-						<HStack gap='2'>
-							<PaginationItems />
-						</HStack>
-						<Box>
-							<PaginationNextTrigger />
-						</Box>
-					</Flex>
-				</PaginationRoot>
+				<Box borderTop='1px' borderColor='gray.200' p='4'>
+					<PaginationRoot count={20} pageSize={5} defaultPage={1} size='sm'>
+						<Flex justify='space-between' align='center' w='full'>
+							<Box>
+								<PaginationPrevTrigger />
+							</Box>
+							<HStack gap='2'>
+								<PaginationItems />
+							</HStack>
+							<Box>
+								<PaginationNextTrigger />
+							</Box>
+						</Flex>
+					</PaginationRoot>
+				</Box>
 			</Box>
 		</Box>
 	);
