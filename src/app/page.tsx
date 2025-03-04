@@ -30,7 +30,7 @@ const initialData = {
 	},
 	new: {
 		title: 'Neu',
-		color: 'green.500',
+		color: 'yellow.500',
 		items: [
 			{
 				name: 'Ramon Reise',

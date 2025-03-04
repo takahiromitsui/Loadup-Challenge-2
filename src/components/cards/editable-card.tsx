@@ -198,7 +198,19 @@ export default function EditableCard({
 							×
 						</Button>
 					</Flex>
-					<Flex>
+					<Flex gap='8px' align='center' mb='24px'>
+						<Box
+							bg={color}
+							px='12px'
+							py='6px'
+							borderRadius='6px'
+							display='flex'
+							alignItems='center'
+						>
+							<Text color='white' fontSize='sm' fontWeight='500'>
+								{title}
+							</Text>
+						</Box>
 						<Button
 							size='sm'
 							bg='red.50'
