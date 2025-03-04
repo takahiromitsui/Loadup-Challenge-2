@@ -91,28 +91,45 @@ export default function Sidebar() {
 			<Flex direction='column' h='full' py='21px'>
 				<Flex align='center' justify='center' mb='55px' h='54px'>
 					{isOpen ? (
-						<Text
-							textAlign='center'
+						<Link
+							as={NextLink}
+							href='/'
+							_hover={{ textDecoration: 'none' }}
+							_focus={{ outline: 'none', boxShadow: 'none' }}
 							width='full'
-							fontSize='26px'
-							fontWeight='700'
-							lineHeight='29.62px'
-							letterSpacing='0px'
-							color='#1C170D'
-							px='22px'
 						>
-							LoadUp Portal
-						</Text>
+							<Text
+								textAlign='center'
+								width='full'
+								fontSize='26px'
+								fontWeight='700'
+								lineHeight='29.62px'
+								letterSpacing='0px'
+								color='#1C170D'
+								px='22px'
+								cursor='pointer'
+								_hover={{ color: 'loadUpBlue' }}
+							>
+								LoadUp Portal
+							</Text>
+						</Link>
 					) : (
-						<Box w='54px' h='54px'>
-							<Image
-								src='/img/logo.svg'
-								alt='logo'
-								width={54}
-								height={54}
-								style={{ width: '54px', height: '54px' }}
-							/>
-						</Box>
+						<Link
+							as={NextLink}
+							href='/'
+							_hover={{ textDecoration: 'none' }}
+							_focus={{ outline: 'none', boxShadow: 'none' }}
+						>
+							<Box w='54px' h='54px' cursor='pointer'>
+								<Image
+									src='/img/logo.svg'
+									alt='logo'
+									width={54}
+									height={54}
+									style={{ width: '54px', height: '54px' }}
+								/>
+							</Box>
+						</Link>
 					)}
 				</Flex>
 
