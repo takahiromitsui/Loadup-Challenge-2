@@ -284,7 +284,7 @@ export default function ClientsPage() {
 			>
 				<Table.Root size='md'>
 					<Table.Header bg='gray.50'>
-						<Table.Row>
+						<Table.Row bg='#F5F7F9'>
 							<Table.ColumnHeader width='40px' py='4' textAlign='center'>
 								<Box
 									as='label'
