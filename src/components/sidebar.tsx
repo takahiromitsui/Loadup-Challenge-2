@@ -137,7 +137,7 @@ export default function Sidebar() {
 				<Box
 					position='absolute'
 					right='-16px'
-					top='50px'
+					top='53px'
 					transition='all 0.3s ease'
 					zIndex={11}
 				>
