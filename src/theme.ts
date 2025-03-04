@@ -7,6 +7,9 @@ export const system = createSystem(defaultConfig, {
 				heading: { value: 'Plus Jakarta Sans' },
 				body: { value: 'Plus Jakarta Sans' },
 			},
+			colors: {
+				loadUpBlue: { value: '#1165EF' },
+			},
 		},
 	},
 });

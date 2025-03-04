@@ -8,6 +8,7 @@ import {
 	useDisclosure,
 	Icon,
 	Text,
+	Link,
 } from '@chakra-ui/react';
 import { Tooltip } from '@/components/ui/tooltip';
 import { LuMenu, LuChevronRight, LuChevronLeft } from 'react-icons/lu';
@@ -30,38 +31,57 @@ import { MdOutlineEmail } from 'react-icons/md';
 import { LuHouse } from 'react-icons/lu';
 import { GoPeople } from 'react-icons/go';
 import { MdKeyboardCommandKey } from 'react-icons/md';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface NavItemProps {
 	icon: any;
 	isActive?: boolean;
 	isExpanded: boolean;
 	label: string;
+	href: string;
 }
 
-const NavItem = ({ icon, isActive, isExpanded, label }: NavItemProps) => {
+const NavItem = ({ icon, isActive, isExpanded, label, href }: NavItemProps) => {
+	const pathname = usePathname();
+	const isCurrentPath = pathname === href;
+
 	return (
 		<Tooltip content={!isExpanded ? label : undefined} showArrow>
-			<Flex
-				p={3}
-				mx={2}
-				borderRadius='lg'
-				role='group'
-				cursor='pointer'
-				_hover={{
-					bg: 'gray.100',
-				}}
-				bg={isActive ? 'blue.500' : 'transparent'}
-				color={isActive ? 'white' : 'gray.600'}
-				alignItems='center'
-				w={isExpanded ? 'full' : 'auto'}
+			<Link
+				as={NextLink}
+				href={href}
+				_hover={{ textDecoration: 'none' }}
+				_focus={{ outline: 'none', boxShadow: 'none' }}
+				width={isExpanded ? 'full' : 'auto'}
+				style={{ textDecoration: 'none' }}
+				display='block'
 			>
-				<Icon as={icon} boxSize={5} />
-				{isExpanded && (
-					<Box ml={4} display={{ base: 'none', md: 'block' }}>
-						{label}
-					</Box>
-				)}
-			</Flex>
+				<Flex
+					p={3}
+					mx={2}
+					borderRadius='lg'
+					role='group'
+					cursor='pointer'
+					_hover={{
+						bg: 'loadUpBlue',
+						color: 'white',
+					}}
+					_focus={{ outline: 'none' }}
+					bg={isCurrentPath ? 'loadUpBlue' : 'transparent'}
+					color={isCurrentPath ? 'white' : 'gray.600'}
+					alignItems='center'
+					justifyContent={isExpanded ? 'flex-start' : 'center'}
+					w='full'
+				>
+					<Icon as={icon} boxSize={5} />
+					{isExpanded && (
+						<Box ml={4} display={{ base: 'none', md: 'block' }}>
+							{label}
+						</Box>
+					)}
+				</Flex>
+			</Link>
 		</Tooltip>
 	);
 };
@@ -127,57 +147,57 @@ export default function Sidebar() {
 				<VStack gap={2} align='stretch' flex={1}>
 					<NavItem
 						icon={BsPersonSquare}
-						isActive={activeItem === 'Clients'}
 						isExpanded={isOpen}
 						label='Clients'
+						href='/clients'
 					/>
 					<NavItem
 						icon={LuTruck}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Campaigns'
+						href='/campaigns'
 					/>
 					<NavItem
 						icon={MdOutlineEmail}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Emails'
+						href='/emails'
 					/>
 					<NavItem
 						icon={LuHouse}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Properties'
+						href='/properties'
 					/>
 					<NavItem
 						icon={LuAward}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Talent Pool'
+						href='/talent-pool'
 					/>
 					<NavItem
 						icon={LuSettings}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Settings'
+						href='/settings'
 					/>
 					<NavItem
 						icon={GoPeople}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Users'
+						href='/users'
 					/>
 					<NavItem
 						icon={MdKeyboardCommandKey}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Control Tower'
+						href='/control-tower'
 					/>
 					<NavItem
 						icon={LuImage}
-						isActive={false}
 						isExpanded={isOpen}
 						label='Image Generator'
+						href='/image-generator'
 					/>
 				</VStack>
 			</Flex>
