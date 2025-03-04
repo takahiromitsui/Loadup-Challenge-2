@@ -10,11 +10,15 @@ interface EditableItem {
 }
 
 interface EditableCardProps {
+	title: string;
+	color: string;
 	items: EditableItem[];
 	onItemsChange?: (items: EditableItem[]) => void;
 }
 
 export default function EditableCard({
+	title,
+	color,
 	items = [],
 	onItemsChange,
 }: EditableCardProps) {
@@ -44,9 +48,9 @@ export default function EditableCard({
 			borderColor='gray.200'
 		>
 			<Flex align='center' mb='16px'>
-				<Box w='3px' h='20px' bg='red.500' borderRadius='full' mr='8px' />
+				<Box w='3px' h='20px' bg={color} borderRadius='full' mr='8px' />
 				<Text fontSize='16px' fontWeight='600' color='#1C170D' flex={1}>
-					Abgelehnt
+					{title}
 				</Text>
 				<Text fontSize='14px' fontWeight='500' color='gray.500'>
 					{items.length}
@@ -54,7 +58,7 @@ export default function EditableCard({
 			</Flex>
 
 			<VStack
-				spacing='8px'
+				gap='8px'
 				align='stretch'
 				minH='100px'
 				bg={isDraggingOver ? 'gray.50' : 'transparent'}
@@ -92,9 +96,11 @@ export default function EditableCard({
 								{item.date}
 							</Text>
 							{item.attempts && (
-								<Text fontSize='12px' color='gray.400'>
-									{item.attempts}. Anmeldeversuch
-								</Text>
+								<Box bg='purple.100' px='8px' py='4px' borderRadius='4px'>
+									<Text fontSize='12px' color='purple.400'>
+										{item.attempts}. Anmeldeversuch
+									</Text>
+								</Box>
 							)}
 						</Flex>
 					</Box>

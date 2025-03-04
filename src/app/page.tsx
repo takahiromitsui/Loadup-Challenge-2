@@ -20,7 +20,41 @@ const initialData = {
 			'Kraftfahrer Axtra September 2023',
 		],
 	},
+	new: {
+		title: 'Neu',
+		color: 'green.500',
+		items: [
+			{
+				name: 'Ramon Reise',
+				date: '31/07/2024',
+				attempts: 2,
+			},
+		],
+	},
+	firstSpeech: {
+		title: 'First Speech Given',
+		color: 'purple.500',
+		items: [
+			{
+				name: 'Ramon Reise',
+				date: '31/07/2024',
+				attempts: 2,
+			},
+		],
+	},
+	interview: {
+		title: 'Bewerbungsgespräch',
+		color: 'orange.500',
+		items: [
+			{
+				name: 'Max Mustermann',
+				date: '31/07/2024',
+			},
+		],
+	},
 	rejected: {
+		title: 'Abgelehnt',
+		color: 'red.500',
 		items: [
 			{
 				name: 'Sam Krause',
@@ -36,9 +70,22 @@ const initialData = {
 };
 
 export default function Home() {
-	const [rejectedItems, setRejectedItems] = useState(
-		initialData.rejected.items
-	);
+	const [cardStates, setCardStates] = useState({
+		new: initialData.new.items,
+		rejected: initialData.rejected.items,
+		firstSpeech: initialData.firstSpeech.items,
+		interview: initialData.interview.items,
+	});
+
+	const handleItemsChange = (
+		cardType: 'new' | 'rejected' | 'firstSpeech' | 'interview',
+		newItems: any[]
+	) => {
+		setCardStates(prev => ({
+			...prev,
+			[cardType]: newItems,
+		}));
+	};
 
 	return (
 		<VStack gap='24px' width='full'>
@@ -104,7 +151,30 @@ export default function Home() {
 			</Flex>
 
 			<Flex gap='16px' flexWrap='wrap'>
-				<EditableCard items={rejectedItems} onItemsChange={setRejectedItems} />
+				<EditableCard
+					title={initialData.new.title}
+					color={initialData.new.color}
+					items={cardStates.new}
+					onItemsChange={items => handleItemsChange('new', items)}
+				/>
+				<EditableCard
+					title={initialData.firstSpeech.title}
+					color={initialData.firstSpeech.color}
+					items={cardStates.firstSpeech}
+					onItemsChange={items => handleItemsChange('firstSpeech', items)}
+				/>
+				<EditableCard
+					title={initialData.interview.title}
+					color={initialData.interview.color}
+					items={cardStates.interview}
+					onItemsChange={items => handleItemsChange('interview', items)}
+				/>
+				<EditableCard
+					title={initialData.rejected.title}
+					color={initialData.rejected.color}
+					items={cardStates.rejected}
+					onItemsChange={items => handleItemsChange('rejected', items)}
+				/>
 			</Flex>
 		</VStack>
 	);
