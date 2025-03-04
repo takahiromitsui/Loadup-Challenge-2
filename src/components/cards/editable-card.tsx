@@ -13,8 +13,11 @@ interface EditableCardProps {
 	title: string;
 	color: string;
 	items: EditableItem[];
-	onItemsChange?: (items: EditableItem[]) => void;
-	onItemRemove?: (index: number) => void;
+	onItemsChange?: (
+		sourceType: string,
+		item: EditableItem,
+		sourceIndex: number
+	) => void;
 }
 
 export default function EditableCard({
@@ -22,7 +25,6 @@ export default function EditableCard({
 	color,
 	items = [],
 	onItemsChange,
-	onItemRemove,
 }: EditableCardProps) {
 	const [isDraggingOver, setIsDraggingOver] = useState(false);
 
@@ -38,13 +40,6 @@ export default function EditableCard({
 		);
 	};
 
-	const handleDragEnd = (e: React.DragEvent, index: number) => {
-		// If the drop was successful (not cancelled)
-		if (e.dataTransfer.dropEffect === 'move') {
-			onItemRemove?.(index);
-		}
-	};
-
 	const handleDrop = (e: React.DragEvent) => {
 		e.preventDefault();
 		setIsDraggingOver(false);
@@ -54,8 +49,7 @@ export default function EditableCard({
 
 			// Only process if the item is coming from a different card
 			if (data.sourceTitle !== title) {
-				const newItems = [...items, data.item];
-				onItemsChange?.(newItems);
+				onItemsChange?.(data.sourceTitle, data.item, data.itemIndex);
 				e.dataTransfer.dropEffect = 'move';
 			}
 		} catch (error) {
@@ -147,7 +141,6 @@ export default function EditableCard({
 						_hover={{ borderColor: 'gray.300' }}
 						draggable
 						onDragStart={e => handleDragStart(e, index)}
-						onDragEnd={e => handleDragEnd(e, index)}
 					>
 						<Text fontWeight='500' mb='4px'>
 							{item.name}

@@ -77,6 +77,15 @@ const initialData = {
 	},
 };
 
+type CardType = 'new' | 'rejected' | 'firstSpeech' | 'interview';
+
+const titleToType: Record<string, CardType> = {
+	Neu: 'new',
+	'First Speech Given': 'firstSpeech',
+	Bewerbungsgespräch: 'interview',
+	Abgelehnt: 'rejected',
+};
+
 export default function Home() {
 	const [cardStates, setCardStates] = useState({
 		new: initialData.new.items,
@@ -86,22 +95,21 @@ export default function Home() {
 	});
 
 	const handleItemsChange = (
-		cardType: 'new' | 'rejected' | 'firstSpeech' | 'interview',
-		newItems: any[]
+		targetType: CardType,
+		sourceTitle: string,
+		item: any,
+		sourceIndex: number
 	) => {
-		setCardStates(prev => ({
-			...prev,
-			[cardType]: newItems,
-		}));
-	};
+		const sourceType = titleToType[sourceTitle];
+		if (!sourceType) {
+			console.error('Invalid source card title:', sourceTitle);
+			return;
+		}
 
-	const handleItemRemove = (
-		cardType: 'new' | 'rejected' | 'firstSpeech' | 'interview',
-		index: number
-	) => {
 		setCardStates(prev => ({
 			...prev,
-			[cardType]: prev[cardType].filter((_, i) => i !== index),
+			[targetType]: [...prev[targetType], item],
+			[sourceType]: prev[sourceType].filter((_, i) => i !== sourceIndex),
 		}));
 	};
 
@@ -173,29 +181,33 @@ export default function Home() {
 					title={initialData.new.title}
 					color={initialData.new.color}
 					items={cardStates.new}
-					onItemsChange={items => handleItemsChange('new', items)}
-					onItemRemove={index => handleItemRemove('new', index)}
+					onItemsChange={(sourceTitle, item, sourceIndex) =>
+						handleItemsChange('new', sourceTitle, item, sourceIndex)
+					}
 				/>
 				<EditableCard
 					title={initialData.firstSpeech.title}
 					color={initialData.firstSpeech.color}
 					items={cardStates.firstSpeech}
-					onItemsChange={items => handleItemsChange('firstSpeech', items)}
-					onItemRemove={index => handleItemRemove('firstSpeech', index)}
+					onItemsChange={(sourceTitle, item, sourceIndex) =>
+						handleItemsChange('firstSpeech', sourceTitle, item, sourceIndex)
+					}
 				/>
 				<EditableCard
 					title={initialData.interview.title}
 					color={initialData.interview.color}
 					items={cardStates.interview}
-					onItemsChange={items => handleItemsChange('interview', items)}
-					onItemRemove={index => handleItemRemove('interview', index)}
+					onItemsChange={(sourceTitle, item, sourceIndex) =>
+						handleItemsChange('interview', sourceTitle, item, sourceIndex)
+					}
 				/>
 				<EditableCard
 					title={initialData.rejected.title}
 					color={initialData.rejected.color}
 					items={cardStates.rejected}
-					onItemsChange={items => handleItemsChange('rejected', items)}
-					onItemRemove={index => handleItemRemove('rejected', index)}
+					onItemsChange={(sourceTitle, item, sourceIndex) =>
+						handleItemsChange('rejected', sourceTitle, item, sourceIndex)
+					}
 				/>
 			</Flex>
 		</VStack>
