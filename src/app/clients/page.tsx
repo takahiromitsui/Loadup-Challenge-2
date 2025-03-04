@@ -2,6 +2,7 @@
 
 import {
 	Box,
+	Flex,
 	Heading,
 	Table,
 	Text,
@@ -9,14 +10,22 @@ import {
 	Button,
 	HStack,
 	IconButton,
+	VStack,
 } from '@chakra-ui/react';
-import { LuSearch } from 'react-icons/lu';
+import { LuFilter, LuSearch, LuChevronDown } from 'react-icons/lu';
 import {
 	PaginationRoot,
 	PaginationItems,
 	PaginationNextTrigger,
 	PaginationPrevTrigger,
 } from '@/components/ui/pagination';
+import {
+	MenuContent,
+	MenuItem,
+	MenuRoot,
+	MenuTrigger,
+} from '@/components/ui/menu';
+import { RiDeleteBinLine } from 'react-icons/ri';
 import { useState, ChangeEvent } from 'react';
 
 interface Client {
@@ -86,6 +95,10 @@ const clients: Client[] = [
 export default function ClientsPage() {
 	const [selectedClients, setSelectedClients] = useState<number[]>([]);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [showFilters, setShowFilters] = useState(false);
+	const [activeFilter, setActiveFilter] = useState<string>('all');
+	const [professionFilter, setProfessionFilter] = useState<string>('all');
+	const [clientFilter, setClientFilter] = useState<string>('all');
 
 	const filteredClients = clients.filter(
 		client =>
@@ -114,35 +127,199 @@ export default function ClientsPage() {
 
 	return (
 		<Box>
-			<Box mb='6'>
-				<Heading size='lg' mb='2'>
-					Clients
-				</Heading>
-				<Text color='gray.600'>Manage your client relationships</Text>
-			</Box>
+			<Flex mb='6' justify='space-between'>
+				<VStack align='flex-start'>
+					<Text fontSize='2xl' fontWeight='bold'>
+						Clients
+					</Text>
+					<Text fontWeight='bold' color='gray.500'>
+						{filteredClients.length} Clients
+					</Text>
+				</VStack>
+				<Button
+					bg='loadUpBlue'
+					color='white'
+					borderRadius='10px'
+					px='10px'
+					fontWeight='500'
+					fontSize='16px'
+					lineHeight='24px'
+					letterSpacing='0.4px'
+					textAlign='center'
+				>
+					+ Add New
+				</Button>
+			</Flex>
 
-			<Box mb='4'>
-				<Box position='relative'>
+			<VStack gap='4' align='stretch'>
+				<Flex justify='space-between'>
 					<Box
-						position='absolute'
-						left='3'
-						top='50%'
-						transform='translateY(-50%)'
+						position='relative'
+						width='350px'
+						borderRadius='10px'
+						border='1px solid #E2E8F0'
 					>
-						<LuSearch color='gray.400' />
+						<Box
+							position='absolute'
+							left='3'
+							top='50%'
+							transform='translateY(-50%)'
+						>
+							<LuSearch color='gray.400' />
+						</Box>
+						<Input
+							pl='10'
+							placeholder='Search'
+							value={searchQuery}
+							onChange={(e: ChangeEvent<HTMLInputElement>) =>
+								setSearchQuery(e.target.value)
+							}
+						/>
 					</Box>
-					<Input
-						pl='10'
-						placeholder='Search clients...'
-						value={searchQuery}
-						onChange={(e: ChangeEvent<HTMLInputElement>) =>
-							setSearchQuery(e.target.value)
-						}
-					/>
-				</Box>
-			</Box>
+					<HStack>
+						<IconButton
+							className='text-red-400 bg-red-100'
+							variant='ghost'
+							size='sm'
+							aria-label='Delete selected'
+						>
+							<RiDeleteBinLine />
+						</IconButton>
+						<Button
+							size='sm'
+							variant='outline'
+							onClick={() => setShowFilters(!showFilters)}
+							// leftIcon={<LuFilter />}
+						>
+							Filter
+						</Button>
+					</HStack>
+				</Flex>
 
-			<Box bg='white' borderRadius='lg' shadow='sm' overflow='hidden' mb='4'>
+				{showFilters && (
+					<HStack gap='4'>
+						<MenuRoot>
+							<Button
+								as={Button}
+								size='sm'
+								variant='outline'
+								// rightIcon={<LuChevronDown />}
+							>
+								Active: {activeFilter === 'all' ? 'All' : activeFilter}
+							</Button>
+							<MenuContent>
+								<MenuItem value='all' onClick={() => setActiveFilter('all')}>
+									All
+								</MenuItem>
+								<MenuItem
+									value='active'
+									onClick={() => setActiveFilter('active')}
+								>
+									Active
+								</MenuItem>
+								<MenuItem
+									value='inactive'
+									onClick={() => setActiveFilter('inactive')}
+								>
+									Inactive
+								</MenuItem>
+								<MenuItem
+									value='pending'
+									onClick={() => setActiveFilter('pending')}
+								>
+									Pending
+								</MenuItem>
+							</MenuContent>
+						</MenuRoot>
+
+						<MenuRoot>
+							<Button
+								as={Button}
+								size='sm'
+								variant='outline'
+								// rightIcon={<LuChevronDown />}
+							>
+								Profession:{' '}
+								{professionFilter === 'all' ? 'All' : professionFilter}
+							</Button>
+							<MenuContent>
+								<MenuItem
+									value='all'
+									onClick={() => setProfessionFilter('all')}
+								>
+									All
+								</MenuItem>
+								<MenuItem
+									value='developer'
+									onClick={() => setProfessionFilter('developer')}
+								>
+									Developer
+								</MenuItem>
+								<MenuItem
+									value='designer'
+									onClick={() => setProfessionFilter('designer')}
+								>
+									Designer
+								</MenuItem>
+								<MenuItem
+									value='manager'
+									onClick={() => setProfessionFilter('manager')}
+								>
+									Manager
+								</MenuItem>
+							</MenuContent>
+						</MenuRoot>
+
+						<MenuRoot>
+							<Button
+								as={Button}
+								size='sm'
+								variant='outline'
+								// rightIcon={<LuChevronDown />}
+							>
+								Client: {clientFilter === 'all' ? 'All' : clientFilter}
+							</Button>
+							<MenuContent>
+								<MenuItem value='all' onClick={() => setClientFilter('all')}>
+									All
+								</MenuItem>
+								<MenuItem
+									value='client'
+									onClick={() => setClientFilter('client')}
+								>
+									Client
+								</MenuItem>
+								<MenuItem
+									value='attendee'
+									onClick={() => setClientFilter('attendee')}
+								>
+									Attendee
+								</MenuItem>
+								<MenuItem
+									value='interview'
+									onClick={() => setClientFilter('interview')}
+								>
+									Interview
+								</MenuItem>
+							</MenuContent>
+						</MenuRoot>
+
+						<Button
+							size='sm'
+							variant='ghost'
+							onClick={() => {
+								setActiveFilter('all');
+								setProfessionFilter('all');
+								setClientFilter('all');
+							}}
+						>
+							Reset
+						</Button>
+					</HStack>
+				)}
+			</VStack>
+
+			<Box bg='white' borderRadius='lg' shadow='sm' overflow='hidden' my='4'>
 				<Table.Root size='md'>
 					<Table.Header>
 						<Table.Row>
