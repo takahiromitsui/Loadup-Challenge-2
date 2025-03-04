@@ -29,7 +29,7 @@ export default function RootLayout({
 						<Sidebar />
 						<Navbar />
 						<Box
-              as="main"
+							as='main'
 							ml={{ base: '96px', lg: '240px' }}
 							transition='margin-left 0.3s'
 							pt='80px'

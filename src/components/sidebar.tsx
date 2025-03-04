@@ -86,6 +86,7 @@ export default function Sidebar() {
 			bg='white'
 			boxShadow='sm'
 			transition='width 0.3s ease'
+			zIndex={10}
 		>
 			<Flex direction='column' h='full' py='21px' px='22px'>
 				<Flex align='center' justify='center' mb='55px'>
@@ -109,9 +110,10 @@ export default function Sidebar() {
 				{/* Toggle Button */}
 				<Box
 					position='absolute'
-					left={isOpen ? '208px' : '64px'}
-					top='89px'
-					transition='left 0.3s ease'
+					right='-16px'
+					top='50px'
+					transition='all 0.3s ease'
+					zIndex={11}
 				>
 					<IconButton
 						aria-label='Toggle Sidebar'

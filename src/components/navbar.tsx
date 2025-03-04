@@ -1,15 +1,16 @@
 'use client';
 
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, IconButton } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import { useSidebar } from './providers/sidebar-provider';
+import { useUser } from './providers/user-provider';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import UserMenu from './user-menu';
 
 export default function Navbar() {
 	const { isOpen } = useSidebar();
 	const pathname = usePathname();
-	const pageName = pathname.split('/').pop() || 'Dashboard';
-	const formattedPageName =
-		pageName.charAt(0).toUpperCase() + pageName.slice(1);
+	const { user } = useUser();
 
 	return (
 		<Box
@@ -22,22 +23,28 @@ export default function Navbar() {
 			transition='left 0.3s ease'
 			borderBottom='1px'
 			borderColor='gray.200'
-			zIndex={10}
 			as='header'
 		>
 			<Flex px='32px' h='full' align='center' justify='space-between'>
 				<Text
-					fontSize='24px'
+					fontSize='26px'
 					fontWeight='600'
 					color='#1C170D'
-					fontFamily='Plus Jakarta Sans'
+					
 				>
-					{formattedPageName}
+					Hi, {user.firstName} {user.lastName} 👋
 				</Text>
 
-				{/* Placeholder for user profile - will be replaced with actual user data later */}
 				<Flex align='center' gap={4}>
-					{/* Add user profile components here */}
+					<IconButton
+						aria-label='Notifications'
+						as={IoNotificationsOutline}
+						variant='ghost'
+						colorScheme='gray'
+						fontSize='24px'
+						_hover={{ bg: 'gray.100' }}
+					/>
+					<UserMenu />
 				</Flex>
 			</Flex>
 		</Box>
