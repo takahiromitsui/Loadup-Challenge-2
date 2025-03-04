@@ -150,7 +150,7 @@ export default function Home() {
 				</Button>
 			</Flex>
 
-			<Flex gap='16px' flexWrap='wrap'>
+			<Flex justify='space-between' flexWrap='wrap' gap='16px'>
 				<EditableCard
 					title={initialData.new.title}
 					color={initialData.new.color}
